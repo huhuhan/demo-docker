@@ -1,0 +1,27 @@
+version: '3'
+services:
+  geoserver:
+    # 镜像名，本地没有则dockerhub获取
+    image: kartoza/geoserver
+    # 容器名
+    container_name: geoserver
+    # 重启策略
+    restart: always
+    ports:
+      - 8600:8080
+    # 挂载文件
+    volumes:
+      # 实际绝对路径（若写相对路径前缀$pwd）
+      - D:\YH\test\docker\geoserver\geoserver-data:/opt/geoserver/data_dir
+
+   # postgis:  
+    # restart: always  
+    # image: kartoza/postgis  
+    # container_name: postgis  
+    # ports:  
+    # - 5432:5432  
+    # environment:  
+    # POSTGRES_USER: root  
+    # POSTGRES_PASSWORD: 123456  
+    # volumes:  
+    # - ./postgis-data:/var/lib/postgresql/data  

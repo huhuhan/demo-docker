@@ -1,0 +1,18 @@
+version: '3'
+services:
+  rdp:
+    # 镜像名，本地没有则dockerhub获取
+    image: tomcat
+    # 容器名
+    container_name: rdp-server
+    # 重启策略
+    restart: always
+    ports:
+      - 9800:8080
+    # 挂载文件
+    volumes:
+      # 实际绝对路径（若写相对路径前缀$pwd）
+      - D:\YH\test\docker\hs\rdp\data:/usr/local/tomcat/data
+      - D:\YH\test\docker\hs\rdp\webapps:/usr/local/tomcat/webapps
+    # 网络模式，默认桥接
+    network_mode: bridge
