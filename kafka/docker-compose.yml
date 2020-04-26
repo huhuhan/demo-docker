@@ -1,0 +1,155 @@
+version: '3.1'
+services:
+  zookeeper1:
+    image: wurstmeister/zookeeper
+    container_name: kafka-zookeeper1
+    restart: always
+    hostname: zookeeper1
+    ports:
+      - 2181:2181
+    environment:
+      ZOO_MY_ID: 1
+      # ZOO_SERVERS: server.1=0.0.0.0:2888:3888 server.2=zookeeper2:2888:3888 server.3=zookeeper3:2888:3888
+  # zookeeper2:
+    # image: zookeeper
+    # container_name: kafka-zookeeper2
+    # restart: always
+    # hostname: zookeeper2
+    # ports:
+      # - 2182:2181
+    # environment:
+      # ZOO_MY_ID: 2
+      # ZOO_SERVERS: server.1=zookeeper1:2888:3888 server.2=0.0.0.0:2888:3888 server.3=zookeeper3:2888:3888
+  # zookeeper3:
+    # image: zookeeper
+    # container_name: kafka-zookeeper3
+    # restart: always
+    # hostname: zookeeper3
+    # ports:
+      # - 2183:2181
+    # environment:
+      # ZOO_MY_ID: 3
+      # ZOO_SERVERS: server.1=zookeeper1:2888:3888 server.2=zookeeper2:2888:3888 server.3=0.0.0.0:2888:3888
+  kafka1:
+    image: wurstmeister/kafka
+    container_name: kafka-kafka1
+    ports:
+      - "9092:9092"
+      - "1099:1099"
+    depends_on:
+      - zookeeper1
+      # - zookeeper2
+      # - zookeeper3
+    environment:
+      # 集群中唯一ID，节点ID
+      KAFKA_BROKER_ID: 1
+      # 宿主机ip，集群的话不要用localhost或127.0.0.1
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.0.137
+      # zookeeper链接地址，多个用逗号区分
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper1:2181 #,zookeeper2:2181,zookeeper3:2181
+      # 端口，给监控工具获取集群使用，比如kafka-manager
+      CUSTOM_JMX_PORT: "1099"
+      # 内存配置
+      JVM_XMS: "256M"
+      JVM_XMX: "512M"
+    # volumes:
+      # # window版不支持docker.sock  
+      # - /var/run/docker.sock:/var/run/docker.sock
+      # # 磁盘挂载broker数据
+      # - /home/work/data/kafka1:/kafka
+    restart: always
+  # kafka2:
+    # image: xuxiangwork/kafka
+    # container_name: kafka-kafka2
+    # ports:
+      # - "9093:9092"
+      # - "1100:1100"
+    # depends_on:
+      # - zookeeper1
+      # - zookeeper2
+      # - zookeeper3
+    # environment:
+      # KAFKA_BROKER_ID: 2
+      # KAFKA_ADVERTISED_HOST_NAME: you_ip_addr(like 192.168.14.10)
+      # KAFKA_ZOOKEEPER_CONNECT: zookeeper1:2181,zookeeper2:2181,zookeeper3:2181
+      # CUSTOM_JMX_PORT: "1100"
+      # JVM_XMS: "256M"
+      # JVM_XMX: "512M"
+    # volumes:
+      # - /var/run/docker.sock:/var/run/docker.sock
+      # - /home/work/data/kafka2:/kafka
+    # restart: always
+  # kafka3:
+    # image: xuxiangwork/kafka
+    # container_name: kafka-kafka3
+    # ports:
+      # - "9094:9092"
+      # - "1101:1101"
+    # depends_on:
+      # - zookeeper1
+      # - zookeeper2
+      # - zookeeper3
+    # environment:
+      # KAFKA_BROKER_ID: 3
+      # KAFKA_ADVERTISED_HOST_NAME: you_ip_addr(like 192.168.14.10)
+      # KAFKA_ZOOKEEPER_CONNECT: zookeeper1:2181,zookeeper2:2181,zookeeper3:2181
+      # CUSTOM_JMX_PORT: "1101"
+      # JVM_XMS: "256M"
+      # JVM_XMX: "512M"
+    # volumes:
+      # - /var/run/docker.sock:/var/run/docker.sock
+      # - /home/work/data/kafka3:/kafka
+    # restart: always
+  # kafka4:
+    # image: xuxiangwork/kafka
+    # container_name: kafka-kafka4
+    # ports:
+      # - "9095:9092"
+      # - "1102:1102"
+    # depends_on:
+      # - zookeeper1
+      # - zookeeper2
+      # - zookeeper3
+    # environment:
+      # KAFKA_BROKER_ID: 4
+      # KAFKA_ADVERTISED_HOST_NAME: you_ip_addr(like 192.168.14.10)
+      # KAFKA_ZOOKEEPER_CONNECT: zookeeper1:2181,zookeeper2:2181,zookeeper3:2181
+      # CUSTOM_JMX_PORT: "1102"
+      # JVM_XMS: "256M"
+      # JVM_XMX: "512M"
+    # volumes:
+      # - /var/run/docker.sock:/var/run/docker.sock
+      # - /home/work/data/kafka4:/kafka
+    # restart: always
+  # kafka5:
+    # image: xuxiangwork/kafka
+    # container_name: kafka-kafka5
+    # ports:
+      # - "9096:9092"
+      # - "1103:1103"
+    # depends_on:
+      # - zookeeper1
+      # - zookeeper2
+      # - zookeeper3
+    # environment:
+      # KAFKA_BROKER_ID: 5
+      # KAFKA_ADVERTISED_HOST_NAME: you_ip_addr(like 192.168.14.10)
+      # KAFKA_ZOOKEEPER_CONNECT: zookeeper1:2181,zookeeper2:2181,zookeeper3:2181
+      # CUSTOM_JMX_PORT: "1103"
+      # JVM_XMS: "256M"
+      # JVM_XMX: "512M"
+    # volumes:
+      # - /var/run/docker.sock:/var/run/docker.sock
+      # - /home/work/data/kafka5:/kafka
+    # restart: always
+  kafka-manager:
+    image: sheepkiller/kafka-manager
+    container_name: kafka-manager
+    ports:
+      - "9000:9000"
+    depends_on:
+      - zookeeper1
+    environment:
+      ZK_HOSTS: zookeeper1:2181
+      APPLICATION_SECRET: letmein
+      KM_ARGS: -Djava.net.preferIPv4Stack=true
