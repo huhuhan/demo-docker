@@ -1,0 +1,11 @@
+[mysqld]
+# 表名不区分大小写
+lower_case_table_names=1 
+#server-id=1
+datadir=/var/lib/mysql
+#socket=/var/lib/mysql/mysqlx.sock
+#symbolic-links=0
+sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
