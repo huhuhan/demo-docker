@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  nexus3:
+    # 容器名
+    container_name: nexus3
+    # 重启策略: 容器退出时总是重启容器
+    restart: always
+    # 默认最新版本
+    image: sonatype/nexus3
+    ports:
+      - 9777:8081
+    volumes:
+      - /home/soft/nexus3/data:/nexus-data
