@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  jenkins-zh:
+    # 容器名
+    container_name: jenkins-zh
+    # 重启策略: 容器退出时总是重启容器
+    restart: always
+    # 构建镜像名称，没有build属性默认从远程仓库获取
+    image: jenkinszh/jenkins-zh:lts
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      # 网页端口
+      - 9888:8080
+      # JNLP代理端口
+      - 40000:5000
+    volumes:
+      - /home/soft/jenkins-zh/jenkins_home:/var/jenkins_home
+    #容器内部角色
+    user: root
