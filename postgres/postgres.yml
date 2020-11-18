@@ -1,0 +1,13 @@
+﻿version: '3'
+
+services:
+  postgres9.2:
+    container_name: postgres9.2
+    image: postgres:9.2
+    environment:
+      POSTGRES_PASSWORD: Abc123
+    ports:
+    # 【54322可修改为自定义端口】
+      - 54322:5432
+    volumes:
+      - 改为数据库存放目录:/var/lib/postgresql
