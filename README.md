@@ -1,12 +1,17 @@
-## 记录docker部署过的项目
-包括开源项目，项目基于开源原始版本，不存在业务扩展
+## 简介
+- 镜像配置使用总结
 
-[部署配置总结](https://huhuhan.github.io/blog/views/docker/docker-demo.html)
+- [配置笔记](https://huhuhan.github.io/blog/views/docker/docker-demo.html)
 
-### 清单
 
-- docker-geoserver
+## 清单
 
-- docker-rdp 报表系统 [官网](http://product.mftcc.cn/rdp/index.html)
-
-- docker-web 纯前端项目，用于测试dockerfile和docker-compose的不同部署方式
+- geoserver：地图图层发布服务
+- rdp：[开源报表系统](http://product.mftcc.cn/rdp/index.html)
+- web：纯前端，发布于tag中，用于测试dockerfile和docker-compose的不同部署方式
+- kafka：中间件
+- mysql：数据库
+- postgres：数据库
+- jenkins：可持续化构建
+- nexus3：仓库管理服务
+- elasticsearch：搜索引擎
