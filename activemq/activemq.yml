@@ -1,0 +1,20 @@
+﻿version: '3'
+
+services:
+  activemq:
+    # 容器名
+    container_name: activemq
+    # 重启策略: 容器退出时总是重启容器
+    restart: always
+    # 构建镜像名称，没有build属性默认从远程仓库获取
+    image: webcenter/activemq
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      # 服务器端口
+      - 61616:61616
+      # 网页端口
+      - 8161:8161
+
+#  admin:admin admin #管理员权限
+#  user:user user #用户权限

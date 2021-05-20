@@ -18,3 +18,4 @@
 - rocketMQ: 消息中间件
 - minio：文件系统 oss对象存储服务
 - redis：缓存数据库
+- activemq：中间件
