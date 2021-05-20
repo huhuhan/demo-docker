@@ -16,4 +16,5 @@
 - nexus3：仓库管理服务
 - elasticsearch：搜索引擎
 - rocketMQ: 消息中间件
-- minio：文件系统
+- minio：文件系统 oss对象存储服务
+- redis：缓存数据库

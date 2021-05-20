@@ -1,0 +1,18 @@
+﻿version: '3'
+
+services:
+  redis2:
+    container_name: redis2
+    restart: always
+    image: redis:latest
+    # 覆盖内部默认命令，指定自定义配置文件启动
+    command:
+      /bin/bash -c "redis-server /usr/local/etc/redis/redis.conf"  
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - 7379:6379
+    volumes:
+    # rw指读写权限
+      - ./config/redis.conf:/usr/local/etc/redis/redis.conf:rw
+      - ./data:/data:rw
