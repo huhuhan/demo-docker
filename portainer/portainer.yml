@@ -1,0 +1,25 @@
+version: '2'
+
+# 参考：https://documentation.portainer.io/v2.0/deploy/ceinstalldocker/
+services:
+  portainer:
+    # 开源社区版
+    image: portainer/portainer-ce
+    container_name: portainer
+    restart: always                              
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      # 与docker应用通信的sock
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data portainer/portainer-ce
+    ports:
+      # web访问端口
+      - 9000:9000
+      - 8000:8000
+    environment:                                      
+      TZ: Asia/Shanghai
+      LANG: en_US.UTF-8
+
+
+volumes:
+  portainer_data:

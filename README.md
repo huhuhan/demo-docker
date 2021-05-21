@@ -7,7 +7,7 @@
 ## 清单
 
 - geoserver：地图图层发布服务
-- rdp：[开源报表系统](http://product.mftcc.cn/rdp/index.html)
+- rdp：[开源报表系统](http://product.mftcc.cn/rdp/index.html) , tomcat容器
 - web：纯前端，发布于tag中，用于测试dockerfile和docker-compose的不同部署方式
 - kafka：中间件
 - mysql：数据库
@@ -19,3 +19,4 @@
 - minio：文件系统 oss对象存储服务
 - redis：缓存数据库
 - activemq：中间件
+- portainer：docker编排，可视化管理平台
