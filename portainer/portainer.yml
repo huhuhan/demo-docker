@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 # 参考：https://documentation.portainer.io/v2.0/deploy/ceinstalldocker/
 services:
@@ -20,6 +20,6 @@ services:
       TZ: Asia/Shanghai
       LANG: en_US.UTF-8
 
-
+# 自定义卷标存储数据
 volumes:
   portainer_data:
