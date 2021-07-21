@@ -1,0 +1,20 @@
+{
+  "registry-mirrors": [
+    "https://docker.mirrors.ustc.edu.cn/",
+    "https://hub-mirror.c.163.com/",
+    "https://registry.docker-cn.com",
+    "https://reg-mirror.qiniu.com",
+    "https://c5cck3vi.mirror.aliyuncs.com"
+  ],
+  "insecure-registries": ["XX.91.199.54:8212"],
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "data-root": "/home/docker-data",
+  "storage-driver": "overlay2",
+  "storage-opts": [
+    "overlay2.override_kernel_check=true"
+  ]
+}

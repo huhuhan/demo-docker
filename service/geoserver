@@ -1,0 +1,21 @@
+#!/bin/bash
+# description: geoserver 2.15.2 Start Stop Restart  
+# processname: geoserver 2.15.2 
+# chkconfig: 234 20 80  
+
+export GEOSERVER_HOME=/usr/local/geoserver/geoserver-2.15.2
+CATALINA_HOME=/usr/local/geoserver/geoserver-2.15.2
+
+
+case $1 in
+        start)
+                nohup $CATALINA_HOME/bin/startup.sh > /var/local/geoserver/nohup_log.log 2>&1 &
+                ;;
+        stop)
+                $CATALINA_HOME/bin/shutdown.sh
+                ;;
+        *)
+                echo 'please use : tomcat {start | stop}'
+        ;;
+esac
+exit 0

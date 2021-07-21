@@ -1,0 +1,25 @@
+#!/bin/bash
+# description: Tomcat9 Start Stop Restart  
+# processname: tomcat9  
+# chkconfig: 234 20 80  
+CATALINA_HOME=/usr/local/tomcat/mapstore/apache-tomcat-9.0.24
+
+case $1 in
+        start)
+                $CATALINA_HOME/bin/startup.sh
+                ;;
+        stop)
+                $CATALINA_HOME/bin/shutdown.sh
+                ;;
+        restart)
+                $CATALINA_HOME/bin/shutdown.sh
+                $CATALINA_HOME/bin/startup.sh
+                ;;
+		log)
+				tail -f $CATALINA_HOME/logs/mapstore.log
+				;;
+        *)
+                echo 'please use : tomcat {start | stop | restart | log}'
+        ;;
+esac
+exit 0

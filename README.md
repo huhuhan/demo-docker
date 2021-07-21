@@ -3,6 +3,7 @@
 
 - [配置笔记](https://huhuhan.github.io/blog/views/docker/docker-demo.html)
 
+> 若博客中的配置代码冲突，以这里为主！
 
 ## 清单
 
@@ -20,3 +21,6 @@
 - redis：缓存数据库
 - activemq：中间件
 - portainer：docker编排，可视化管理平台
+- docker: 守护进程的配置参考文件`daemon.json`
+- service: Linux系统服务，配置参考脚本
+- jdk: 官方并发jar包，`java -jar`运行，用于理解并发线程

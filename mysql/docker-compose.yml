@@ -8,8 +8,7 @@ services:
     container_name: mysql
     restart: always
     volumes:
-      - /opt/docker-mysql/var/lib/mysql:/var/lib/mysql
-      - /opt/docker-mysql/config/my.cnf:/etc/mysql/my.cnf
-      - /opt/docker-mysql/config/conf.d/conf.d:/etc/mysql/conf.d
+      - /sdb1/mysql/data:/var/lib/mysql
+      - /sdb1/mysql/config/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
     ports:
-      - "8206:3306"
+      - "8306:3306"
