@@ -1,0 +1,25 @@
+version: '3'
+
+networks:
+  mongo:
+
+services:
+  mongodb:
+    # 根据hub.docker查询最新镜像
+    image: mongo:latest
+    restart: always
+    container_name: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: 111111yh!
+      MONGO_DATA_DIR: /data/db
+      MONGO_LOG_DIR: /data/logs
+    volumes:
+      - /ws/soft/mongo/db:/data/db
+      - /ws/soft/mongo/log:/data/log
+    ports:
+      - "8307:27017"
+    networks:
+      - mongo
+    # 采用 认证模式。这是配置文件中的一种属性
+    command: mongod --auth
