@@ -25,3 +25,4 @@
 - service: Linux系统服务，配置参考脚本
 - jdk: 官方并发jar包，`java -jar`运行，用于理解并发线程
 - mongo：数据库
+- agilebpm：开源项目

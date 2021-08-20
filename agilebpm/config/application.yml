@@ -1,0 +1,51 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    # 创建数据库导入agilebpm.sql，系统登录账户admin/1
+    url: jdbc:mysql://localhost:8306/agilebpm?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=UTC
+    username: root
+    password: abc123456
+    dbType: mysql
+  activemq:
+    broker-url: tcp://127.0.0.1:61616
+    in-memory: false
+    packages:
+      trust-all: true
+  # 建议配置Redis
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: root
+    database: 9
+
+
+logging:
+  level:
+    root: info
+# 构建的内部端口是8866，不可修改
+server:
+  port: 8866
+  servlet:
+    context-path: /
+
+
+ab:
+  jwt:
+    enabled: true
+  security:
+    auth-ingores: /*
+    csrf-ingores: a.feg.cn,127.0.0.1,localhost,120.24.61.35,101.91.199.54,rbac-api
+  # 开启Redis缓存，默认内存
+  redis:
+    use-redis-cache: false
+  mail:
+    mail-address: agileBpm@qq.com
+    nick-name: AgileBPM
+    password: fywouffpohiibdee
+    send-host: smtp.qq.com
+    send-port: 465
+  simple-mq:
+    message-queue-type: synchronous
+
+uploader:
+  default: db
