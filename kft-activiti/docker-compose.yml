@@ -1,0 +1,14 @@
+version: '3'
+
+
+# 开源项目：https://github.com/henryyan/kft-activiti-demo
+services:
+  kft-activiti:
+    # 构建的是tomcat+war包，运行后访问：localhost:8877/kft-activiti-demo/
+    image: huhuhan/kft-activiti:demo
+    container_name: kft-activiti
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - 8877:8080
+
