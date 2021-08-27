@@ -1,0 +1,40 @@
+version: '3'
+
+# 参考：https://segmentfault.com/a/1190000019772866
+services:
+  geoserver:
+    # 社区版
+    image: gitlab/gitlab-ce:latest
+    container_name: gitlab
+    # 类似always，退出容器重启，但守护进程停止就不再重启
+    restart: unless-stopped
+    ports:
+      # 网站端口、https端口、ssh端口
+      - 8600:80
+      - 8443:443
+      # 注意，8222不是主机的SSH端口，是gitlab的SSH端口
+      - 8222:22
+    volumes:
+      # 三个主要挂载目录
+      - /ws/gitlab/config:/etc/gitlab
+      - /ws/gitlab/logs:/var/log/gitlab
+      - /ws/gitlab/data:/var/opt/gitlab
+    privileged: true
+    environment:
+      TZ: Asia/Shanghai
+      # 可选，gitlab配置项，或直接修改/etc/gitlab/gitlab.rb配置文件
+      # 1、配置IP或域名，用于git clone时使用
+      # 2、开启邮箱服务
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://XX.XXX.XX.XX'
+        gitlab_rails['time_zone'] = 'Asia/Shanghai'
+        gitlab_rails['smtp_enable'] = true
+        gitlab_rails['smtp_address'] = "smtp.aliyun.com"
+        gitlab_rails['smtp_port'] = 465
+        gitlab_rails['smtp_user_name'] = "xxx@aliyun.com"
+        gitlab_rails['smtp_password'] = "xxx"
+        gitlab_rails['smtp_domain'] = "aliyun.com"
+        gitlab_rails['smtp_authentication'] = "login"
+        gitlab_rails['smtp_enable_starttls_auto'] = true
+        gitlab_rails['smtp_tls'] = true
+        gitlab_rails['gitlab_email_from'] = 'xxx@aliyun.com'
