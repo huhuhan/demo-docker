@@ -1,0 +1,12 @@
+version: '3'
+
+
+services:
+  ureport:
+    # 构建是开源版本, h2数据库版，详情查看描述：https://hub.docker.com/r/huhuhan/ureport
+    image: huhuhan/ureport:h2
+    container_name: ureport
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - 8279:8279
