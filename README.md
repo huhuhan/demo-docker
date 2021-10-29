@@ -26,3 +26,4 @@
 - jdk: 官方并发jar包，`java -jar`运行，用于理解并发线程
 - mongo：数据库
 - agilebpm：开源项目
+- prometheus + grafana + 监控节点：服务监控

@@ -1,0 +1,25 @@
+version: '3'
+services:
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: unless-stopped
+    volumes:
+      - /yh/soft/grafana/data:/var/lib/grafana
+      # 可以先起个容器，复制默认配置文件出来，再挂载
+      - /yh/soft/grafana/config/grafana.ini:/etc/grafana/grafana.ini
+      - /yh/soft/grafana/log:/var/log/grafana
+    ports:
+      - 服务端口:3000
+    user: root
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    restart: unless-stopped
+    volumes:
+      - /yh/soft/prometheus/data:/prometheus
+      # 可以先起个容器，复制默认配置文件出来，再挂载
+      - /yh/soft/prometheus/conf/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 服务端口:9090
+    user: root

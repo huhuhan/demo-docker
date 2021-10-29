@@ -1,0 +1,37 @@
+version: '3'
+services:
+  # MySQL 监控节点
+  mysql-exporter:
+    container_name: mysql-exporter
+    image: prom/mysqld-exporter
+    environment:
+      - DATA_SOURCE_NAME=账户:密码@(IP:端口)/
+    ports:
+      - 服务端口:910
+  # PostgresSQL 系统监控
+  postgresql-exporter:
+    container_name: postgresql-exporter
+    image: prometheuscommunity/postgres-exporter
+    environment:
+      - DATA_SOURCE_NAME=postgresql://账户:密码@IP:端口/postgres?sslmode=disable/
+    ports:
+      - 服务端口:9187
+  # Linux 监控节点，采用主机网络
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node_exporter
+    command:
+      - '--path.rootfs=/host'
+    network_mode: host
+    pid: host
+    volumes:
+      - '/:/host:ro,rslave'
+  # Elasticsearch 监控节点
+  elasticsearch_exporter:
+    image: quay.io/prometheuscommunity/elasticsearch-exporter:latest
+    container_name: elasticsearch_exporter
+    command:
+      # 填写ES服务信息
+      - '--es.uri=http://IP:端口'
+    ports:
+      - "服务端口:9114"
