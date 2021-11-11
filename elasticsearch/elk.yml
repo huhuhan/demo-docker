@@ -5,9 +5,10 @@ networks:
     driver: bridge
 
 services:
+  # 数据引擎
   elasticsearch:
     container_name: elasticsearch
-    image: elasticsearch:6.8.12
+    image: elasticsearch:7.14.2
     environment:
       TZ: Asia/Shanghai
       # 开发环境
@@ -15,14 +16,51 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
+    # 挂载分词器插件，可选，或直接容器内部安装
+    volumes:
+      - /yh/soft/elk/elasticsearch/plugins:/usr/share/elasticsearch/plugins
     user: root
     networks:
       - esnet
   # 可视化管理平台
-  elasticsearch-head:
-    container_name: elasticsearch-head
-    image: mobz/elasticsearch-head:5-alpine
+  kibana:
+    container_name: kibana
+    # 版本号必须和ES一致
+    image: kibana:7.14.2
+    environment:
+      I18N_LOCALE: zh-CN
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
     ports:
-      - 9400:9100
+      - 5601:5601
+    # 可以选起个容器将默认配置文件复制出来，再挂载
+    volumes:
+      - /yh/soft/elk/kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
     networks:
       - esnet
+  # 数据转索引
+  logstash:
+    container_name: logstash
+    # 版本号必须和ES一致
+    image: logstash:7.14.2
+    environment:
+      I18N_LOCALE: zh-CN
+    ports:
+      - 5044:5044
+    networks:
+      - esnet
+    volumes:
+      - /yh/soft/elk/logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - /yh/soft/elk/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+  # 数据采集
+  filebeat:
+    container_name: filebeat
+    # 版本号必须和ES一致
+    image: elastic/filebeat:7.14.2
+    environment:
+      setup.kibana.host: http://kibana:5601
+    networks:
+      - esnet
+    user: root
+    volumes:
+      - /ws/soft/elk/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /ws/soft/elk/filebeat/log/logapp:/var/log/logapp:rw
