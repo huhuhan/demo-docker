@@ -11,7 +11,7 @@ services:
     volumes:
       # 与docker应用通信的sock
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data portainer/portainer-ce
+      - portainer_data:/data
     ports:
       # web访问端口
       - 9000:9000
