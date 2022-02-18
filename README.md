@@ -27,3 +27,4 @@
 - mongo：数据库
 - agilebpm：开源项目
 - prometheus + grafana + 监控节点：服务监控
+- xxl-job-admin：开源项目 分布式任务调度平台
