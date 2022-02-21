@@ -1,0 +1,21 @@
+version: '3'
+
+networks:
+  agilebpm:
+    driver: bridge
+
+# 商业版1.6.7
+services:
+  agilebpm-edition:
+    image: huhuhan/agilebpm:edition
+    container_name: agilebpm-edition
+    environment:
+      TZ: Asia/Shanghai
+    # 挂载配置文件application.yml
+    volumes:
+      - /YH/config:/usr/bpm-config
+    # 构建的内部端口是8866
+    ports:
+      - 8866:8866
+    networks:
+      - agilebpm

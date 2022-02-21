@@ -1,0 +1,193 @@
+# 分布式下，请注意：1、雪花算法配置，2、使用j2cache缓存时开启L2缓存，3、分布式Session共享配置
+spring:
+  datasource:
+    #    【MySQL 连接】
+    driver-class-name: ${DB_DRIVER:com.mysql.cj.jdbc.Driver}
+    url: ${DB_URL_PREFIX:jdbc:mysql}://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:agile_bpm}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:yanghan}
+    dbType: ${DB_TYPE:mysql}
+  # 若使用activemq 则需设置，默认直接使用的Redis做的mq
+  activemq:
+    broker-url: tcp://127.0.0.1:61616
+    in-memory: false
+    packages:
+      trust-all: true
+  # Redis 配置
+  redis:
+    host: ${REDIS_HOST:127.0.0.1}
+    port: ${REDIS_PORT:6379}
+    password: ${REDIS_PASSWORD:yanghan}
+    database: ${REDIS_DATABASE:5}
+    #设置允许上传文件的大小
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  # 分布式Session共享配置
+  session:
+    # 会话时长(单位：秒)
+    timeout: 1800
+    #session存储类型  none , redis，分布式下请使用Redis
+    store-type: none
+    redis:
+      namespace: ab:session
+  mvc:
+    favicon:
+      enabled: false
+logging:
+  level:
+    root: info
+    com:
+      dstz: DEBUG
+    com.dstz.sys.simplemq: DEBUG
+    org:
+      springframework:
+        jdbc:
+          core: DEBUG
+        data:
+          redis: ERROR
+      mongodb:
+        driver: INFO
+    io:
+      lettuce: ERROR
+  file:
+    path: /usr/agilebpm-edition/log
+server:
+  servlet:
+    context-path: /
+  port: 8866
+## activiti job 的定时刷新器，用于 Timer节点
+activiti:
+  jobExecutorActivate: false
+## AgileBPM 的相关配置
+ab:
+  ## 是否开启JWT
+  jwt:
+    enabled: false
+    header: Authorization
+    #鉴权
+  security:
+    ## 忽略鉴权的URL
+    auth-ingores: /login.*,/error,/logout,/agilebpm-ui/*,/index.html,/favicon.ico,/swagger-*,/v2/api-docs*,/org/wx/login,/org/wx/bindUser,/login/dstz,login/*,login/*,/tenant/resource/*,/agilebpm/abTenantInfo/getByCode,
+
+    ## 忽略防盗链的URL 
+    csrf-ingores: a.feg.cn,127.0.0.1,localhost,192.168.,
+    # 最大会话数  -1：表示会话不受任何限制   0：限制除登陆用户最后一次登陆会话，其它会话都失效  大于0：限制用户下最大会话数
+    maximum-sessions: -1
+  ## 邮箱发送者的配置
+  mail:
+    mail-address: XXXXXXX
+    nick-name: AgileBPM
+    password: 333333Yh
+    send-host: smtp.qiye.aliyun.com
+    send-port: 465
+    ssl: true
+  simple-mq:
+    ## mq 队列配置：redis ：使用Redis做队列；synchronous: 同步，不使用队列；jms: activemq作为队列  discard: 丢弃模式，调用JmsProducer不做任何处理
+    message-queue-type: synchronous
+  ## 缓存配置 memory 内存，Redis，二级缓存 j2cache
+  cache:
+    type: j2cache
+  ## @ABScheduled 定时计划是否开启
+  schedule:
+    enable: true
+  groovy:
+    # groovy 引擎黑名单关键词，防止执行危险脚本
+    blackKeywords: System,Runtime,BeanUtil,JdbcTemplate,FileUtil,InputStream,IoUtil,FileWriter,ReflectUtil,ClassUtil,Eval,AppUtil
+    # Groovy编译脚本缓存
+    cache-size: 20
+  # 使用时需要在引入maven 依赖 agilebpm-component-ldap
+  ldap:
+    server: ldap://127.0.0.1:10389/dc=agilebpm,dc=cn
+    manager-d-n: uid=admin,ou=system
+    manager-password: secret
+    authentication-type: simple
+  # ab的mongodb相关配置  
+  mongoDb:
+    #地址
+    address: localhost
+    #端口
+    port: 27017
+    #是否支持事务（需要复制集）
+    isTx: true
+    #业务对象持久化时的数据库
+    db: ab
+    #业务对象持久化时的集合
+    col: json
+  # 多租户配置
+  multi-tenancy:
+    ignore-mappers:
+    ignore-tables: ab_tenant_info
+    table-column-name: tenant_id_
+    web-request-param: tenantId
+  # 雪花算法ID生成器相关配置
+  id-generator:
+    machine: 1
+  # request trace
+  request-trace:
+    # trance id name
+    id-name: traceId
+  # request log
+  request-log:
+    # 是否启用
+    enable: true
+    # 脱敏字段，覆盖请求参数、头信息、响应
+    sensitive-fields:
+      - password
+    # 字段长度限制；-1 小于1不做任何限制
+    field-log-length: -1
+    # 忽略地址
+    ignore-urls:
+      - /sys/sysFile/download
+
+  ## minio 服务器相关配置
+  minio:
+    endpoint: http://XX:9100
+    accessKey: XX
+    secretKey: XX
+    bucketName: folder
+## 上传配置： db 存数据库 ；ordinary 存本地磁盘，需要配置 uploader.ordinary.path存储目录。minio 需要ab:minio相关配置  具体请看 IUploader 实现类
+uploader:
+  default: db
+## 二级缓存配置
+j2cache:
+  serialization: java
+  default-cache-null-object: true
+  sync-ttl-to-redis: true
+  L1:
+    provider-class: caffeine
+    region:
+      default: 1000, 12h
+      # jwt token default period of validity
+      jwtToken: 1000, 5m
+      # 微信 Access Token 默认有效期（移动端整合微信使用）
+      WX_ACCESS_TOKEN: 1, 2h
+  L2:
+    cache-open: false
+    provider-class: net.oschina.j2cache.cache.support.redis.SpringRedisProvider
+    storage: generic
+    channel: j2cache
+  broadcast:
+    cache-clean-mode: blend
+    provider-class: net.oschina.j2cache.cache.support.redis.SpringRedisPubSubPolicy
+## 分布式定时计划，如果开启请配置address ，其他参考http://www.agilebpm.cn/zh-cn/docs/schedule.html
+xxl:
+  job:
+    admin:
+      ### xxl-job admin address list, such as "http://address" or "http://address01,http://address02"
+      addresses:
+    ### xxl-job executor address
+    executor:
+      appname: agile-bpm
+      ip:
+      port: 9999
+      ### xxl-job log path
+      logpath: /data/applogs/xxl-job/jobhandler
+      ### xxl-job log retention days
+      logretentiondays: -1
+    ### xxl-job, access token
+    accessToken:
+elasticsearch:
+  host: 127.0.0.1:9200
+  username:
