@@ -6,10 +6,10 @@ networks:
 
 # 开源项目，官网：http://www.agilebpm.cn/
 services:
-  agilebpm:
+  agilebpm-source:
     # 构建是开源版本
     image: huhuhan/agilebpm:source
-    container_name: agilebpm
+    container_name: agilebpm-source
     environment:
       TZ: Asia/Shanghai
     # 挂载配置文件application.yml
