@@ -1,0 +1,21 @@
+version: '3'
+
+# 根据官方文档说明，用hosts网络，集群部署需要不同机器IP
+services:
+  # 端口：8080
+  go-fastdfs:
+    image: sjqzhang/go-fastdfs:latest
+    container_name: go-fastdfs
+    environment:
+      TZ: Asia/Shanghai
+      GO_FASTDFS_DIR: /data
+    network_mode: host
+    volumes:
+      - /ws/soft/go-fastdfs/data:/data
+  # 端口：8088 启动后读取的集群属性，不要用默认的127.0.0.1，填正确的IP，否则文件预览地址错误
+  go-fastdfs-web:
+    image: perfree/fastdfsweb:latest
+    container_name: go-fastdfs-web
+    network_mode: host
+    environment:
+      TZ: Asia/Shanghai

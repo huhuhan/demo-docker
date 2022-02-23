@@ -14,6 +14,7 @@
 - elasticsearch：搜索引擎
 - geoserver：地图图层发布服务 
 - gitlab：代码版本控制平台
+- go-fastfds：文件系统
 - jdk: 官方并发jar包，`java -jar`运行，用于理解并发线程
 - jenkins：可持续化构建
 - kafka：中间件
@@ -24,6 +25,7 @@
 - nexus3：仓库管理服务
 - portainer：docker编排，可视化管理平台
 - postgres：数据库
+- postgres：任务调度
 - prometheus + grafana + 监控节点：服务监控
 - rdp：开源项目 报表平台
 - redis：缓存数据库

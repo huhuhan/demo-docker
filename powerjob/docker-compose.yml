@@ -2,6 +2,7 @@
 
 # 文档：https://www.yuque.com/powerjob/guidence/nyio9g
 services:
+  # 调度中心
   powerjob-server:
     container_name: powerjob-server
     image: tjqq/powerjob-server:4.0.1
