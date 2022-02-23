@@ -1,0 +1,21 @@
+﻿version: '3'
+
+# 文档：https://www.yuque.com/powerjob/guidence/nyio9g
+services:
+  powerjob-server:
+    container_name: powerjob-server
+    image: tjqq/powerjob-server:4.0.1
+    environment:
+      TZ: Asia/Shanghai
+      PARAMS: "
+      --spring.profiles.active=product
+      --spring.datasource.core.jdbc-url=jdbc:mysql://192.168.1.53:3306/powerjob-product?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+      --spring.datasource.core.username=root
+      --spring.datasource.core.password=yanghan
+      "
+    ports:
+      - 10086:10086
+      - 7700:7700
+    volumes:
+      - /ws/soft/powerjob/powerjob-server:/root/powerjob/server
+      - /ws/soft/powerjob/.m2:/root/.m2
